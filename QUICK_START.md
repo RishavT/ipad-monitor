@@ -3,26 +3,26 @@
 ## Setup (first time)
 
 ```bash
-# 1. Add virtual monitor
+# 1. Run toggle script
 ./toggle-monitor.sh
 
-# 2. Start Deskreen
-./deskreen.AppImage
+# Script will:
+# - Download Deskreen if needed (first time only)
+# - Create virtual monitor
+# - Offer to start Deskreen
 
-# 3. On iPad: Open browser and go to the URL shown
-# 4. Select the virtual monitor (HDMI-A-0) to share
+# 2. On iPad: Open browser and go to the URL shown
+# 3. Select the virtual monitor (HDMI-A-0) to share
 ```
 
 ## Daily Use
 
 ```bash
 # Start
-./toggle-monitor.sh        # If monitor not already active
-./deskreen.AppImage        # Start sharing
+./toggle-monitor.sh        # Add monitor and optionally start Deskreen
 
-# Use
-# - Move windows: $mod+Shift+Right (in i3)
-# - Focus iPad: $mod+Right
+# Use your window manager keybindings to move windows
+# Example for i3: $mod+Shift+Right to move to virtual display
 
 # Stop
 ./toggle-monitor.sh        # Remove virtual monitor

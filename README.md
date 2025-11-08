@@ -6,29 +6,29 @@ Use your iPad as a wireless second monitor on Manjaro Linux with i3 window manag
 
 1. **Make sure both devices are on the same WiFi network**
 
-2. **Add virtual monitor** (optional but recommended):
+2. **Add virtual monitor and start Deskreen**:
    ```bash
    ./toggle-monitor.sh
    ```
+   The script will:
+   - Automatically download Deskreen if needed (saved to `~/.config/ipad_monitor/`)
+   - Create a virtual display
+   - Offer to start Deskreen for you
 
-3. **Start Deskreen**:
-   ```bash
-   ./deskreen.AppImage
-   ```
-
-4. **On iPad**:
+3. **On iPad**:
    - Open Chrome or Safari
    - Go to the URL shown by Deskreen (e.g., `http://192.168.1.100:3131`)
    - Connect and share the virtual monitor
 
-5. **Done!** Move windows to your iPad with i3 keybindings
+4. **Done!** Move windows to your iPad with window manager keybindings
 
 ## What's Inside
 
-- **toggle-monitor.sh** - Adds/removes virtual second monitor (run again to toggle)
-- **deskreen.AppImage** - Screen sharing application
-- **config.sh** - Configuration file
+- **toggle-monitor.sh** - Manages virtual monitor and Deskreen (auto-downloads on first run)
+- **config.sh** - Configuration file for virtual display settings
 - **TROUBLESHOOTING.md** - Solutions for common issues
+
+**Note:** Deskreen is automatically downloaded to `~/.config/ipad_monitor/deskreen.AppImage` on first run.
 
 ## Virtual Monitor
 
@@ -91,7 +91,9 @@ bindsym $mod+i workspace 9
 
 1. **Start Deskreen**:
    ```bash
-   ./deskreen.AppImage
+   # Automatically prompted by toggle-monitor.sh
+   # Or run manually:
+   ~/.config/ipad_monitor/deskreen.AppImage
    ```
 
 2. **Share content**:
@@ -160,12 +162,13 @@ If you get "cannot find mode" errors, the toggle script automatically cleans up 
 
 ```bash
 # Morning setup
-./toggle-monitor.sh              # Add virtual monitor
-./deskreen.AppImage              # Start Deskreen
+./toggle-monitor.sh              # Add virtual monitor and start Deskreen
+# Script will prompt to download Deskreen (first time only)
+# Script will prompt to start Deskreen
 # Connect from iPad
 
-# In i3: Move browser to iPad
-$mod+Shift+Right                 # Moves current window to virtual display
+# Use window manager keybindings to move windows to virtual display
+# Example for i3: $mod+Shift+Right
 
 # Work with dual monitors all day
 
@@ -197,12 +200,14 @@ for_window [class="Firefox" title="Documentation"] move to workspace 9
 
 ## Files
 
-- `toggle-monitor.sh` - Virtual monitor management
-- `deskreen.AppImage` - Screen sharing app (147 MB)
-- `config.sh` - Configuration
+- `toggle-monitor.sh` - Virtual monitor management and Deskreen launcher
+- `config.sh` - Configuration for virtual display
 - `README.md` - This file
 - `QUICK_START.md` - Quick reference
 - `TROUBLESHOOTING.md` - Detailed troubleshooting
+
+**Auto-downloaded:**
+- `~/.config/ipad_monitor/deskreen.AppImage` - Screen sharing app (~147 MB, downloaded on first run)
 
 ## Uninstalling
 
@@ -210,9 +215,12 @@ for_window [class="Firefox" title="Documentation"] move to workspace 9
 # Remove virtual monitor if active
 ./toggle-monitor.sh
 
-# Delete everything
+# Delete the repository
 cd ..
 rm -rf ipad-monitor
+
+# Optional: Remove Deskreen and config
+rm -rf ~/.config/ipad_monitor
 ```
 
 ## Credits

@@ -19,9 +19,52 @@ REFRESH_RATE="60"
 WIDTH=$(echo $VIRTUAL_RESOLUTION | cut -d'x' -f1)
 HEIGHT=$(echo $VIRTUAL_RESOLUTION | cut -d'x' -f2)
 
+# Deskreen configuration
+DESKREEN_DIR="$HOME/.config/ipad_monitor"
+DESKREEN_PATH="$DESKREEN_DIR/deskreen.AppImage"
+DESKREEN_URL="https://github.com/pavlobu/deskreen/releases/download/v2.0.4/Deskreen-2.0.4.AppImage"
+
+# Function to check and download Deskreen
+check_deskreen() {
+    if [ ! -f "$DESKREEN_PATH" ]; then
+        echo ""
+        echo "Deskreen not found at: $DESKREEN_PATH"
+        echo ""
+        read -p "Download Deskreen now? (y/n): " -n 1 -r
+        echo ""
+
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Downloading Deskreen..."
+            mkdir -p "$DESKREEN_DIR"
+
+            if command -v curl &> /dev/null; then
+                curl -L "$DESKREEN_URL" -o "$DESKREEN_PATH"
+            elif command -v wget &> /dev/null; then
+                wget "$DESKREEN_URL" -O "$DESKREEN_PATH"
+            else
+                echo "Error: Neither curl nor wget found. Please install one to download Deskreen."
+                echo "Or download manually from: https://github.com/pavlobu/deskreen/releases"
+                return 1
+            fi
+
+            chmod +x "$DESKREEN_PATH"
+            echo "✓ Deskreen downloaded successfully!"
+            echo ""
+        else
+            echo "You can download Deskreen manually from:"
+            echo "https://github.com/pavlobu/deskreen/releases"
+            echo "Save it to: $DESKREEN_PATH"
+            echo ""
+        fi
+    fi
+}
+
 echo "========================================="
 echo "Virtual Monitor Toggle"
 echo "========================================="
+
+# Check for Deskreen
+check_deskreen
 
 # Check if running X11
 if [ "$XDG_SESSION_TYPE" != "x11" ]; then
@@ -149,11 +192,27 @@ EOF
     echo "  - Focus display: \$mod+Right/Left/Up/Down"
     echo ""
     echo "Usage with Deskreen:"
-    echo "  1. Run: ./deskreen.AppImage"
+    echo "  1. Run: $DESKREEN_PATH"
     echo "  2. Select the virtual display ($VIRTUAL_OUTPUT) to share"
     echo "  3. Connect from iPad browser"
     echo ""
     echo "To remove: ./toggle-monitor.sh (run again)"
+    echo ""
+
+    # Offer to start Deskreen
+    if [ -f "$DESKREEN_PATH" ]; then
+        read -p "Start Deskreen now? (y/n): " -n 1 -r
+        echo ""
+        echo ""
+
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Starting Deskreen..."
+            nohup "$DESKREEN_PATH" > /dev/null 2>&1 &
+            disown
+            echo "✓ Deskreen started in background"
+            echo ""
+        fi
+    fi
 fi
 
 echo "========================================="
