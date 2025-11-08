@@ -1,0 +1,6 @@
+# Claude Code directory
+.claude/
+
+# Virtual display runtime config
+.virtual-display-config
+deskreen.AppImage
