@@ -22,7 +22,7 @@ HEIGHT=$(echo $VIRTUAL_RESOLUTION | cut -d'x' -f2)
 # Deskreen configuration
 DESKREEN_DIR="$HOME/.config/ipad_monitor"
 DESKREEN_PATH="$DESKREEN_DIR/deskreen.AppImage"
-DESKREEN_URL="https://github.com/pavlobu/deskreen/releases/download/v2.0.4/Deskreen-2.0.4.AppImage"
+DESKREEN_URL="https://github.com/pavlobu/deskreen/releases/download/v3.1.0/deskreen-ce-3.1.0-x86_64.AppImage"
 
 # Function to check and download Deskreen
 check_deskreen() {
